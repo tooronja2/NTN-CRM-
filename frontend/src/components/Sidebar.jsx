@@ -10,7 +10,7 @@ function Sidebar({ isOpen, onClose, onLogout }) {
     };
 
     const navItems = [
-        { path: '/', icon: '📊', label: 'Dashboard' },
+        { path: '/dashboard', icon: '📊', label: 'Dashboard' },
         { path: '/contactos', icon: '👥', label: 'Contactos' },
         { path: '/tareas', icon: '📋', label: 'Tareas' },
         { path: '/proyectos', icon: '🗂', label: 'Proyectos' },

@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+// Componentes públicos (Landing)
+import Landing from './components/Landing';
+import Pricing from './components/Pricing';
+import Register from './components/Register';
+
+// Componentes privados (Dashboard)
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import Contactos from './components/Contactos';
@@ -7,6 +14,7 @@ import Tareas from './components/Tareas';
 import Proyectos from './components/Proyectos';
 import Plantillas from './components/Plantillas';
 import Login from './components/Login';
+
 import { isLoggedIn } from './api/client';
 
 function App() {
@@ -14,7 +22,6 @@ function App() {
     const [loggedIn, setLoggedIn] = useState(isLoggedIn());
 
     useEffect(() => {
-        // Check login status on mount
         setLoggedIn(isLoggedIn());
     }, []);
 
@@ -26,46 +33,59 @@ function App() {
         setLoggedIn(false);
     };
 
-    if (!loggedIn) {
-        return <Login onLogin={handleLogin} />;
-    }
+    // Layout para el dashboard (privado)
+    const DashboardLayout = ({ children }) => (
+        <div className="app-container">
+            <button
+                className="menu-toggle"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+                ☰
+            </button>
+            <div
+                className={`sidebar-overlay ${sidebarOpen ? 'show' : ''}`}
+                onClick={() => setSidebarOpen(false)}
+            />
+            <Sidebar
+                isOpen={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+                onLogout={handleLogout}
+            />
+            <main className="main-content">
+                {children}
+            </main>
+        </div>
+    );
+
+    // Rutas protegidas
+    const PrivateRoute = ({ children }) => {
+        if (!loggedIn) {
+            return <Navigate to="/login" replace />;
+        }
+        return <DashboardLayout>{children}</DashboardLayout>;
+    };
 
     return (
         <BrowserRouter>
-            <div className="app-container">
-                {/* Mobile menu toggle */}
-                <button
-                    className="menu-toggle"
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
-                >
-                    ☰
-                </button>
+            <Routes>
+                {/* Rutas públicas */}
+                <Route path="/" element={<Landing />} />
+                <Route path="/precios" element={<Pricing />} />
+                <Route path="/registro" element={<Register onSuccess={() => window.location.href = '/login'} />} />
+                <Route path="/login" element={
+                    loggedIn ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />
+                } />
 
-                {/* Sidebar overlay for mobile */}
-                <div
-                    className={`sidebar-overlay ${sidebarOpen ? 'show' : ''}`}
-                    onClick={() => setSidebarOpen(false)}
-                />
+                {/* Rutas privadas (Dashboard) */}
+                <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                <Route path="/contactos" element={<PrivateRoute><Contactos /></PrivateRoute>} />
+                <Route path="/tareas" element={<PrivateRoute><Tareas /></PrivateRoute>} />
+                <Route path="/proyectos" element={<PrivateRoute><Proyectos /></PrivateRoute>} />
+                <Route path="/plantillas" element={<PrivateRoute><Plantillas /></PrivateRoute>} />
 
-                {/* Sidebar */}
-                <Sidebar
-                    isOpen={sidebarOpen}
-                    onClose={() => setSidebarOpen(false)}
-                    onLogout={handleLogout}
-                />
-
-                {/* Main content */}
-                <main className="main-content">
-                    <Routes>
-                        <Route path="/" element={<Dashboard />} />
-                        <Route path="/contactos" element={<Contactos />} />
-                        <Route path="/tareas" element={<Tareas />} />
-                        <Route path="/proyectos" element={<Proyectos />} />
-                        <Route path="/plantillas" element={<Plantillas />} />
-                        <Route path="*" element={<Navigate to="/" replace />} />
-                    </Routes>
-                </main>
-            </div>
+                {/* Fallback */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
         </BrowserRouter>
     );
 }
