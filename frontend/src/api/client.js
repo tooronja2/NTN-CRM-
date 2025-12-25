@@ -2,7 +2,10 @@
  * API Client - Conexión con el backend
  */
 
-const API_BASE = '/api';
+// En desarrollo usa proxy de Vite (/api), en producción usa la URL de Railway
+const API_BASE = import.meta.env.VITE_API_URL
+    ? `${import.meta.env.VITE_API_URL}/api`
+    : '/api';
 
 // Obtener el telegram_id guardado
 function getTelegramId() {
@@ -201,15 +204,9 @@ export async function updateUsuario(data) {
     });
 }
 
-export async function configEmail(gmail_user, gmail_app_password) {
-    return apiFetch(`/usuarios/config-email?gmail_user=${encodeURIComponent(gmail_user)}&gmail_app_password=${encodeURIComponent(gmail_app_password)}`, {
-        method: 'POST'
-    });
-}
-
 // =============================================
 // UTILIDADES
-// =============================================
+// ==============================================
 export function setTelegramId(id) {
     localStorage.setItem('telegram_id', id);
 }
