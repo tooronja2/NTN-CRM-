@@ -21,8 +21,7 @@ function Sidebar({ isOpen, onClose, onLogout }) {
         <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
             <div className="sidebar-header">
                 <div className="sidebar-logo">
-                    <span>📌</span>
-                    <span>CRM Follow-Up</span>
+                    <span>⚡ Syncra</span>
                 </div>
             </div>
 

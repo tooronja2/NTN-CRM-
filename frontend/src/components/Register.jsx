@@ -78,7 +78,7 @@ function Register({ onSuccess }) {
             <nav className="landing-nav">
                 <div className="landing-nav-container">
                     <Link to="/" className="landing-logo">
-                        📌 <span>CRM Follow-Up</span>
+                        ⚡ <span>Syncra</span>
                     </Link>
                     <div className="landing-nav-links">
                         <Link to="/precios">Precios</Link>

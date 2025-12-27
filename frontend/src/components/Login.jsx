@@ -45,7 +45,7 @@ function Login({ onLogin }) {
     return (
         <div className="login-container">
             <div className="login-card">
-                <div className="login-logo">📌 CRM Follow-Up</div>
+                <div className="login-logo">⚡ Syncra</div>
                 <p className="login-subtitle">Automatización de seguimientos</p>
 
                 <form onSubmit={handleSubmit}>

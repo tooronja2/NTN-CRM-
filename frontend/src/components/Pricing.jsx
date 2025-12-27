@@ -77,7 +77,7 @@ function Pricing() {
             <nav className="landing-nav">
                 <div className="landing-nav-container">
                     <Link to="/" className="landing-logo">
-                        📌 <span>CRM Follow-Up</span>
+                        ⚡ <span>Syncra</span>
                     </Link>
                     <div className="landing-nav-links">
                         <Link to="/">Inicio</Link>
@@ -187,7 +187,7 @@ function Pricing() {
             <footer className="landing-footer">
                 <div className="footer-container">
                     <div className="footer-brand">
-                        <div className="landing-logo">📌 CRM Follow-Up</div>
+                        <div className="landing-logo">⚡ Syncra</div>
                         <p>Automatiza tus seguimientos y cierra más deals.</p>
                     </div>
                     <div className="footer-links">
@@ -204,7 +204,7 @@ function Pricing() {
                     </div>
                 </div>
                 <div className="footer-bottom">
-                    <p>© 2024 CRM Follow-Up. Todos los derechos reservados.</p>
+                    <p>© 2024 Syncra. Todos los derechos reservados.</p>
                 </div>
             </footer>
         </div>
