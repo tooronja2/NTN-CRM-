@@ -10,7 +10,6 @@ function useInView(options = {}) {
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
                 setIsInView(true);
-                // Una vez visible, dejar de observar
                 if (ref.current) observer.unobserve(ref.current);
             }
         }, { threshold: 0.1, ...options });
@@ -38,89 +37,155 @@ function AnimatedSection({ children, className = '', delay = 0 }) {
     );
 }
 
+// Iconos SVG profesionales
+const Icons = {
+    kanban: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="5" height="18" rx="1" />
+            <rect x="10" y="3" width="5" height="12" rx="1" />
+            <rect x="17" y="3" width="5" height="8" rx="1" />
+        </svg>
+    ),
+    telegram: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 5L2 12.5l7 1M21 5l-11 14.5v-6L21 5z" />
+        </svg>
+    ),
+    email: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2" />
+            <path d="M22 6l-10 7L2 6" />
+        </svg>
+    ),
+    clock: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
+        </svg>
+    ),
+    users: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="9" cy="7" r="4" />
+            <path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
+            <circle cx="17" cy="7" r="3" />
+            <path d="M21 21v-2a3 3 0 00-2-2.83" />
+        </svg>
+    ),
+    folder: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
+        </svg>
+    ),
+    check: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+    ),
+    arrow: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+    )
+};
+
 function Landing() {
     const [scrollY, setScrollY] = useState(0);
+    const [isNavSolid, setIsNavSolid] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
+        const handleScroll = () => {
+            setScrollY(window.scrollY);
+            setIsNavSolid(window.scrollY > 100);
+        };
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const features = [
+        { icon: Icons.kanban, title: 'Vista Kanban', desc: 'Visualiza todas tus tareas en un tablero drag & drop. Organiza el flujo de trabajo con estados personalizables.' },
+        { icon: Icons.telegram, title: 'Bot de Telegram', desc: 'Gestiona todo desde Telegram. Crea tareas, contactos y recibe recordatorios sin abrir la web.' },
+        { icon: Icons.email, title: 'Emails Automáticos', desc: 'Envía recordatorios automáticos a tus contactos. Plantillas personalizables con variables dinámicas.' },
+        { icon: Icons.clock, title: 'Recordatorios Múltiples', desc: 'Configura varios recordatorios por tarea: 3 días antes, 1 día antes, el mismo día.' },
+        { icon: Icons.users, title: 'Gestión de Contactos', desc: 'Centraliza toda la información de tus clientes con historial completo de interacciones.' },
+        { icon: Icons.folder, title: 'Proyectos', desc: 'Agrupa tareas por proyecto. Mantén organizados todos los seguimientos de cada cliente.' },
+    ];
+
+    const steps = [
+        { num: 1, title: 'Regístrate gratis', desc: 'Solo necesitas tu Telegram ID para comenzar' },
+        { num: 2, title: 'Conecta el Bot', desc: 'Inicia nuestro bot en Telegram con /start' },
+        { num: 3, title: 'Crea tu primer contacto', desc: 'Agrega contactos y tareas desde la web o el bot' },
+        { num: 4, title: 'Recibe recordatorios', desc: 'El sistema te avisa automáticamente por Telegram y email' },
+    ];
+
     return (
         <div className="landing-page">
-            {/* Navbar con efecto de scroll */}
-            <nav className={`landing-nav ${scrollY > 50 ? 'scrolled' : ''}`}>
+            {/* Navbar - Transparente al inicio, sólido al scrollear */}
+            <nav className={`landing-nav ${isNavSolid ? 'nav-solid' : 'nav-transparent'}`}>
                 <div className="landing-nav-container">
                     <Link to="/" className="landing-logo">
-                        ⚡ <span>Syncra</span>
+                        <img src="/Evolthix.png" alt="Evolthix" className="nav-logo-img" />
                     </Link>
                     <div className="landing-nav-links">
                         <Link to="/precios">Precios</Link>
-                        <Link to="/login" className="btn btn-secondary btn-sm">Iniciar Sesión</Link>
+                        <Link to="/login" className="btn btn-ghost btn-sm">Iniciar Sesión</Link>
                         <Link to="/registro" className="btn btn-primary btn-sm">Comenzar Gratis</Link>
                     </div>
                 </div>
             </nav>
 
-            {/* Hero Section con parallax */}
-            <section className="hero-section">
-                <div className="hero-content">
-                    <AnimatedSection delay={0}>
-                        <div className="hero-badge">🚀 La herramienta que necesitas</div>
-                    </AnimatedSection>
+            {/* Hero Section con Video de Fondo */}
+            <section className="hero-video-section">
+                {/* Video/Imagen de fondo */}
+                <div className="hero-video-bg">
+                    {/* TODO: Reemplazar con video cuando esté disponible */}
+                    {/* <video autoPlay muted loop playsInline>
+                        <source src="/videos/hero-video.mp4" type="video/mp4" />
+                    </video> */}
+                    <div className="hero-placeholder-bg"></div>
+                    <div className="hero-overlay"></div>
+                </div>
 
-                    <AnimatedSection delay={100}>
-                        <h1 className="hero-title">
-                            Automatiza tus <span className="gradient-text">Follow-Ups</span> y nunca pierdas un cliente
-                        </h1>
+                <div className="hero-video-content">
+                    <AnimatedSection delay={0}>
+                        <img src="/Evolthix.png" alt="Evolthix" className="hero-brand-logo" />
                     </AnimatedSection>
 
                     <AnimatedSection delay={200}>
-                        <p className="hero-subtitle">
-                            El CRM diseñado para Project Managers que quieren mantener el control de sus contactos,
-                            tareas y recordatorios. Gestiona desde la web o Telegram.
-                        </p>
+                        <h1 className="hero-video-title">
+                            Automatización Inteligente<br />
+                            <span>de Seguimientos</span>
+                        </h1>
                     </AnimatedSection>
 
                     <AnimatedSection delay={300}>
-                        <div className="hero-cta">
-                            <Link to="/registro" className="btn btn-primary btn-lg pulse-animation">
-                                Comenzar Gratis →
-                            </Link>
-                            <Link to="/precios" className="btn btn-secondary btn-lg">
-                                Ver Planes
+                        <p className="hero-video-subtitle">
+                            El CRM diseñado para Project Managers que quieren mantener el control
+                            de sus contactos, tareas y recordatorios.
+                        </p>
+                    </AnimatedSection>
+
+                    <AnimatedSection delay={400}>
+                        <div className="hero-video-cta">
+                            <Link to="/registro" className="btn btn-light btn-lg">
+                                Comenzar Ahora
+                                <span className="btn-icon">{Icons.arrow}</span>
                             </Link>
                         </div>
                     </AnimatedSection>
 
-                    <AnimatedSection delay={400}>
-                        <div className="hero-trust">
-                            <span>✓ Sin tarjeta de crédito</span>
-                            <span>✓ Setup en 2 minutos</span>
-                            <span>✓ Soporte por Telegram</span>
+                    <AnimatedSection delay={500}>
+                        <div className="hero-trust-badges">
+                            <span><span className="trust-icon">{Icons.check}</span> Sin tarjeta de crédito</span>
+                            <span><span className="trust-icon">{Icons.check}</span> Setup en 2 minutos</span>
+                            <span><span className="trust-icon">{Icons.check}</span> Soporte dedicado</span>
                         </div>
                     </AnimatedSection>
                 </div>
 
-                <div className="hero-image" style={{ transform: `translateY(${scrollY * 0.1}px)` }}>
-                    <div className="hero-mockup floating-animation">
-                        <div className="mockup-header">
-                            <div className="mockup-dots">
-                                <span></span><span></span><span></span>
-                            </div>
-                            <span>Dashboard</span>
-                        </div>
-                        <div className="mockup-content">
-                            <div className="mockup-stat">📊 12 tareas pendientes</div>
-                            <div className="mockup-stat">👥 45 contactos</div>
-                            <div className="mockup-stat">🔔 3 recordatorios hoy</div>
-                            <div className="mockup-kanban">
-                                <div className="mock-col">🔴 Pendiente</div>
-                                <div className="mock-col">🟡 En curso</div>
-                                <div className="mock-col">🟢 Completado</div>
-                            </div>
-                        </div>
+                {/* Scroll indicator */}
+                <div className="scroll-indicator">
+                    <div className="scroll-mouse">
+                        <div className="scroll-wheel"></div>
                     </div>
                 </div>
             </section>
@@ -131,19 +196,12 @@ function Landing() {
                     <AnimatedSection>
                         <div className="section-header">
                             <h2>Todo lo que necesitas para gestionar tus follow-ups</h2>
-                            <p>Funcionalidades diseñadas para project managers que no quieren perder oportunidades</p>
+                            <p>Funcionalidades diseñadas para profesionales que no quieren perder oportunidades</p>
                         </div>
                     </AnimatedSection>
 
                     <div className="features-grid">
-                        {[
-                            { icon: '📋', title: 'Vista Kanban', desc: 'Visualiza todas tus tareas en un tablero drag & drop. Mueve tareas entre estados con un click.' },
-                            { icon: '📱', title: 'Bot de Telegram', desc: 'Gestiona todo desde Telegram. Crea tareas, contactos y recibe recordatorios sin abrir la web.' },
-                            { icon: '📧', title: 'Emails Automáticos', desc: 'Envía recordatorios automáticos a tus contactos. Plantillas personalizables con variables.' },
-                            { icon: '⏰', title: 'Recordatorios Múltiples', desc: 'Configura varios recordatorios por tarea: 3 días antes, 1 día antes, el mismo día.' },
-                            { icon: '👥', title: 'Gestión de Contactos', desc: 'Centraliza toda la información de tus clientes con historial de interacciones.' },
-                            { icon: '🗂', title: 'Proyectos', desc: 'Agrupa tareas por proyecto. Mantén organizados todos los seguimientos de cada cliente.' },
-                        ].map((feature, i) => (
+                        {features.map((feature, i) => (
                             <AnimatedSection key={i} delay={i * 100}>
                                 <div className="feature-card">
                                     <div className="feature-icon">{feature.icon}</div>
@@ -167,22 +225,14 @@ function Landing() {
                     </AnimatedSection>
 
                     <div className="steps-grid">
-                        {[
-                            { num: 1, title: 'Regístrate gratis', desc: 'Solo necesitas tu Telegram ID para comenzar' },
-                            { num: 2, title: 'Conecta el Bot', desc: 'Inicia nuestro bot en Telegram con /start' },
-                            { num: 3, title: 'Crea tu primer contacto', desc: 'Agrega contactos y tareas desde la web o el bot' },
-                            { num: 4, title: 'Recibe recordatorios', desc: 'El sistema te avisa automáticamente por Telegram y email' },
-                        ].map((step, i) => (
-                            <>
-                                {i > 0 && <div className="step-arrow" key={`arrow-${i}`}>→</div>}
-                                <AnimatedSection key={i} delay={i * 150}>
-                                    <div className="step-card">
-                                        <div className="step-number">{step.num}</div>
-                                        <h3>{step.title}</h3>
-                                        <p>{step.desc}</p>
-                                    </div>
-                                </AnimatedSection>
-                            </>
+                        {steps.map((step, i) => (
+                            <AnimatedSection key={i} delay={i * 150}>
+                                <div className="step-card">
+                                    <div className="step-number">{step.num}</div>
+                                    <h3>{step.title}</h3>
+                                    <p>{step.desc}</p>
+                                </div>
+                            </AnimatedSection>
                         ))}
                     </div>
                 </div>
@@ -224,10 +274,11 @@ function Landing() {
             <section className="cta-section">
                 <div className="section-container">
                     <AnimatedSection>
-                        <h2>¿Listo para no perder más clientes?</h2>
-                        <p>Únete a cientos de project managers que ya automatizan sus follow-ups</p>
+                        <h2>¿Listo para optimizar tu gestión?</h2>
+                        <p>Únete a cientos de profesionales que ya automatizan sus follow-ups</p>
                         <Link to="/registro" className="btn btn-primary btn-lg">
-                            Comenzar Gratis Ahora →
+                            Comenzar Gratis Ahora
+                            <span className="btn-icon">{Icons.arrow}</span>
                         </Link>
                     </AnimatedSection>
                 </div>
@@ -237,7 +288,7 @@ function Landing() {
             <footer className="landing-footer">
                 <div className="footer-container">
                     <div className="footer-brand">
-                        <div className="landing-logo">⚡ Syncra</div>
+                        <img src="/Evolthix.png" alt="Evolthix" className="footer-brand-logo" />
                         <p>Automatiza tus seguimientos y cierra más deals.</p>
                     </div>
                     <div className="footer-links">
@@ -258,7 +309,7 @@ function Landing() {
                     </div>
                 </div>
                 <div className="footer-bottom">
-                    <p>© 2024 Syncra. Todos los derechos reservados.</p>
+                    <p>© 2024 Evolthix. Todos los derechos reservados.</p>
                 </div>
             </footer>
         </div>

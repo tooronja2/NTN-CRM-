@@ -78,7 +78,7 @@ function Register({ onSuccess }) {
             <nav className="landing-nav">
                 <div className="landing-nav-container">
                     <Link to="/" className="landing-logo">
-                        ⚡ <span>Syncra</span>
+                        <img src="/logo.png" alt="Evolthix" className="nav-logo-img" /> <span>Evolthix</span>
                     </Link>
                     <div className="landing-nav-links">
                         <Link to="/precios">Precios</Link>
@@ -251,7 +251,7 @@ function Register({ onSuccess }) {
                             <li>✓ Sin límite de tiempo</li>
                         </ul>
                         <div className="register-testimonial">
-                            <p>"Desde que uso CRM Follow-Up no pierdo ningún cliente. Los recordatorios automáticos son un game-changer."</p>
+                            <p>"Desde que uso Evolthix no pierdo ningún cliente. Los recordatorios automáticos son un game-changer."</p>
                             <span>— María G., Project Manager</span>
                         </div>
                     </div>

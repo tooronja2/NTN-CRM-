@@ -21,7 +21,7 @@ function Sidebar({ isOpen, onClose, onLogout }) {
         <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
             <div className="sidebar-header">
                 <div className="sidebar-logo">
-                    <span>⚡ Syncra</span>
+                    <img src="/logo.png" alt="Evolthix" className="sidebar-logo-img" /> <span>Evolthix</span>
                 </div>
             </div>
 

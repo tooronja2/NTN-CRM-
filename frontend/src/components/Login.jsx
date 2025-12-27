@@ -45,7 +45,7 @@ function Login({ onLogin }) {
     return (
         <div className="login-container">
             <div className="login-card">
-                <div className="login-logo">⚡ Syncra</div>
+                <div className="login-logo"><img src="/logo.png" alt="Evolthix" className="login-logo-img" /> Evolthix</div>
                 <p className="login-subtitle">Automatización de seguimientos</p>
 
                 <form onSubmit={handleSubmit}>
