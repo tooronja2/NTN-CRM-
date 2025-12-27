@@ -16,16 +16,24 @@
   --primary-900: #312e81;
 
   /* Grises */
+  /* Grises - Mejorado el contraste */
   --gray-50: #f9fafb;
   --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --gray-900: #111827;
+  --gray-300: #9ca3af;
+  /* Más oscuro para bordes visibles */
+  --gray-400: #6b7280;
+  /* Texto secundario legible */
+  --gray-500: #4b5563;
+  /* Texto principal suave */
+  --gray-600: #374151;
+  /* Texto principal fuerte */
+  --gray-700: #1f2937;
+  /* Títulos */
+  --gray-800: #111827;
+  /* Fondos oscuros */
+  --gray-900: #030712;
+  /* Casi negro */
 
   /* Estados */
   --success: #10b981;
@@ -541,12 +549,14 @@ body {
 }
 
 .btn-secondary {
-  background: var(--gray-100);
+  background: white;
   color: var(--gray-700);
+  border: 1px solid var(--gray-300);
 }
 
 .btn-secondary:hover {
   background: var(--gray-200);
+  border-color: var(--gray-400);
 }
 
 .btn-danger {
@@ -738,6 +748,26 @@ body {
 @media (max-width: 1024px) {
   .kanban-board {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 100px;
+    gap: 40px;
+  }
+
+  .hero-cta,
+  .hero-trust {
+    justify-content: center;
+  }
+
+  .hero-image {
+    order: -1;
+    /* Muestra la imagen primero o segundo según preferencia, aquí ajustamos */
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
   }
 }
 
@@ -943,6 +973,9 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  /* Previene scroll horizontal */
 }
 
 .hero-badge {
@@ -962,6 +995,13 @@ body {
   line-height: 1.1;
   color: var(--gray-900);
   margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+    /* Copia ajustada para móvil */
+  }
 }
 
 .gradient-text {
@@ -1465,7 +1505,20 @@ body {
 }
 
 .pricing-features .x {
-  color: var(--gray-300);
+  color: var(--gray-400);
+}
+
+/* Fix Hero Contrast specifically */
+.hero-badge {
+  background: var(--primary-100);
+  color: var(--primary-800);
+  font-weight: 600;
+}
+
+.hero-subtitle {
+  color: var(--gray-600);
+  /* Ensure readability */
+  font-weight: 400;
 }
 
 /* FAQ Section */
